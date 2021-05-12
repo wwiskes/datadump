@@ -4,4 +4,5 @@ This is just a place for me to toss files. It's actually exposed as a webpage, s
 Rstudio example:
 
 library(sf)
+
 counties <- st_read("https://wwiskes.github.io/datadump/bayarea.geojson") %>% st_transform(crs = 4326)
