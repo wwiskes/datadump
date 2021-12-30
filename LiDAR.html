@@ -9,7 +9,7 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-    // Grant CesiumJS access to your ion assets
+   // Grant CesiumJS access to your ion assets
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA";
 
 var viewer = new Cesium.Viewer("cesiumContainer", {
@@ -22,13 +22,6 @@ viewer.scene.globe.depthTestAgainstTerrain = true;
 var tileset = viewer.scene.primitives.add(
   new Cesium.Cesium3DTileset({
     url: Cesium.IonResource.fromAssetId(725345),
-  })
-);
-
-// A ~10 billion point 3D Tileset of the city of Montreal, Canada captured in 2015 with a resolution of 20 cm. Tiled and hosted by Cesium ion.
-var pointCloudTileset = viewer.scene.primitives.add(
-  new Cesium.Cesium3DTileset({
-    url: Cesium.IonResource.fromAssetId(725345),
     pointCloudShading: {
       attenuation: true,
       maximumAttenuation: 2,
@@ -36,20 +29,159 @@ var pointCloudTileset = viewer.scene.primitives.add(
   })
 );
 
-viewer.zoomTo(pointCloudTileset, new Cesium.HeadingPitchRange(60.5, -0.5, 3000.0));
+var imageryLayer = viewer.imageryLayers.addImageryProvider(
+
+new Cesium.IonImageryProvider({ assetId: 725737 })
+
+);
 
 
-pointCloudTileset.style = new Cesium.Cesium3DTileStyle({
+viewer.zoomTo(tileset, new Cesium.HeadingPitchRange(60.5, -0.5, 3500.0));
+
+var styles = [];
+function addStyle(name, style) {
+  style.pointSize = Cesium.defaultValue(style.pointSize, 4.0);
+  styles.push({
+    name: name,
+    style: style,
+  });
+}
+
+
+addStyle("All Points", {
+  color: {
+    conditions: [
+      ["${Classification} === 2", "color('brown')"],       // ground
+      ["${Classification} === 9", "color('blue')"], // low vegetation
+      ["${Classification} < 2", "color('green')"],       // medium vegetation
+      ["${Classification} > 9", "color('green')"],   // high vegetation
+      ["true", "color('green')"],
+      ]}
+});
+
+addStyle("Ground Points", {
   color: {
     conditions: [
       ["${Classification} === 2", "color('brown')"],       // ground
       ["${Classification} === 9", "color('blue')"], // low vegetation
       ["${Classification} < 2", "color('greenyellow')"],       // medium vegetation
       ["${Classification} > 9", "color('darkgreen')"],   // high vegetation
-      ["true", "color('green')"]
-    ]
-  }
+      ["true", "color('green')"],
+      ]},
+  show: "${Classification} === 2",
 });
+
+addStyle("Slope Only", {
+  color: {
+    conditions: [
+      ["${Classification} === 2", "color('brown')"],       // ground
+      ["${Classification} === 9", "color('blue')"], // low vegetation
+      ["${Classification} < 2", "color('greenyellow')"],       // medium vegetation
+      ["${Classification} > 9", "color('darkgreen')"],   // high vegetation
+      ["true", "color('green')"],
+      ]},
+  show: "${Classification} === 56",
+});
+
+addStyle("Rounding Functions", {
+  color:
+    "rgb(${POSITION}[2], ${POSITION}[2]/2, 10)",
+  show:
+    "${POSITION}[2] > 100",
+});
+
+addStyle("Exp and Log Functions", {
+  color:
+    "rgb(log(${POSITION}[2]) * 255, log2(${POSITION}[2]) * 255 + exp2(${POSITION}[2]) * 255, exp(${POSITION}[2]) * 255)",
+});
+
+addStyle("Fractional Part", {
+  color:
+    "rgb(fract(${POSITION}[0]) * 255, fract(${POSITION}[1]) * 255, fract(${POSITION}[2]) * 255)",
+});
+
+    
+    addStyle("Min and Max", {
+  color:
+    "rgb(min(${POSITION}.x, 0.75) * 255, max(${POSITION}.z, 0.25) * 255, 255)",
+});
+
+addStyle("Clamp and Mix", {
+  color: "color() * ${POSITION}[2]/900",
+});
+
+addStyle("Secondary Color", {
+  color: {
+    conditions: [
+      ["${id} < 250", "vec4(${secondaryColor}, 1.0)"],
+      [
+        "${id} < 500",
+        "vec4(${secondaryColor} * ${secondaryColor}, 1.0)",
+      ],
+      ["${id} < 750", "vec4(${secondaryColor} / 5.0, 1.0)"],
+      [
+        "${id} < 1000",
+        "rgb(0, 0, Number(${secondaryColor}.x < 0.5) * 255)",
+      ],
+    ],
+  },
+});
+
+addStyle("Use point colors", {
+  color: "${COLOR} * ${temperature} + rgb(128,128,128)",
+});
+
+addStyle("Use point positions", {
+  
+});
+
+// POSITION contains 0 as its last component, so add 1.0 to make the point cloud opaque
+addStyle("Color based on position", {
+  color: "vec4(${POSITION}, 1.0)",
+});
+
+addStyle("Style point size", {
+  color: "color('red')",
+  pointSize: "${temperature} * 10",
+});
+
+addStyle("Multiple defines", {
+  defines: {
+    length: "length(${POSITION})",
+    time: "${tiles3d_tileset_time} * 3.0",
+  },
+  color: {
+    conditions: [
+      ["${length} < 0.5", "${length} * color('red')"],
+      [
+        "${length} < 1.0",
+        "vec4(vec3(${temperature} * fract(${time})), 1.0)",
+      ],
+      ["true", "${COLOR}"],
+    ],
+  },
+  pointSize: "5.0 - ${length} * 2.0",
+  show: "${length} < 2.0",
+});
+
+function setStyle(style) {
+  return function () {
+    tileset.style = new Cesium.Cesium3DTileStyle(style);
+  };
+}
+
+var styleOptions = [];
+for (var i = 0; i < styles.length; ++i) {
+  var style = styles[i];
+  styleOptions.push({
+    text: style.name,
+    onselect: setStyle(style.style),
+  });
+}
+
+Sandcastle.addToolbarMenu(styleOptions);
+
+
 
   </script>
  </div>
