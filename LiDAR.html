@@ -9,8 +9,7 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-   // Grant CesiumJS access to your ion assets
-Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA";
+  Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA";
 
 var viewer = new Cesium.Viewer("cesiumContainer", {
   terrainProvider: new Cesium.CesiumTerrainProvider({
@@ -54,9 +53,10 @@ addStyle("All Points", {
       ["${Classification} === 2", "color('brown')"],       // ground
       ["${Classification} === 9", "color('blue')"], // low vegetation
       ["${Classification} < 2", "color('green')"],       // medium vegetation
-      ["${Classification} > 9", "color('green')"],   // high vegetation
+      ["${Classification} > 9", "color('darkgreen')"],   // high vegetation
       ["true", "color('green')"],
-      ]}
+      ]},
+  show: "${Classification} < 10 ",
 });
 
 addStyle("Ground Points", {
