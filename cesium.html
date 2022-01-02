@@ -158,15 +158,7 @@
 87
 88
 89
-90
-91
-92
-93
-94
-95
-96
-97</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">// Access Key Here (yes I know I&#39;ve just made my key public, its only read)</span>
-Cesium.Ion.defaultAccessToken <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA&quot;</span>;
+90</pre></td><td><pre style="margin: 0; line-height: 125%">Cesium.Ion.defaultAccessToken <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA&quot;</span>;
 <span style="color: #008800; font-style: italic">// Set up viewer. Imagery provider must be set to false and imagery added later to avoid extra data usage.</span>
 <span style="color: #AA22FF; font-weight: bold">var</span> viewer <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.Viewer(<span style="color: #BB4444">&quot;cesiumContainer&quot;</span>, {
     imageryProvider<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
@@ -212,40 +204,34 @@ viewer.zoomTo(tileset, <span style="color: #AA22FF; font-weight: bold">new</span
         style<span style="color: #666666">:</span> style,
     });
 }
-<span style="color: #008800; font-style: italic">// Display all non-error LiDAR points </span>
-addStyle(<span style="color: #BB4444">&quot;All Points&quot;</span>, {
-    color<span style="color: #666666">:</span> {
-        conditions<span style="color: #666666">:</span> [
+<span style="color: #008800; font-style: italic">// Classify the point cloud</span>
+<span style="color: #AA22FF; font-weight: bold">var</span> classify <span style="color: #666666">=</span> [
             [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
             [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
             [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else </span>
-        ]
+        ];
+<span style="color: #008800; font-style: italic">// Display all non-error LiDAR points </span>
+addStyle(<span style="color: #BB4444">&quot;All Points&quot;</span>, {
+    color<span style="color: #666666">:</span> {
+        conditions<span style="color: #666666">:</span> classify
     },
     show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} &lt; 10 &quot;</span>, <span style="color: #008800; font-style: italic">// errors are &gt; 9</span>
 });
 <span style="color: #008800; font-style: italic">// Filter to just ground points</span>
 addStyle(<span style="color: #BB4444">&quot;Ground Points&quot;</span>, {
     color<span style="color: #666666">:</span> {
-        conditions<span style="color: #666666">:</span> [
-            [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
-            [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
-            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else</span>
-        ]
+        conditions<span style="color: #666666">:</span> classify
     },
-    show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>,
+    show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #008800; font-style: italic">// ground</span>
 });
 <span style="color: #008800; font-style: italic">// Filter out all points.</span>
 addStyle(<span style="color: #BB4444">&quot;Slope Only&quot;</span>, {
     color<span style="color: #666666">:</span> {
-        conditions<span style="color: #666666">:</span> [
-            [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
-            [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
-            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else </span>
-        ]
+        conditions<span style="color: #666666">:</span> classify
     },
-    show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 56&quot;</span>, <span style="color: #008800; font-style: italic">// This is not possible</span>
+    show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 56&quot;</span>, <span style="color: #008800; font-style: italic">// = blank</span>
 });
-<span style="color: #008800; font-style: italic">// Function to apply style to the tileset. This function is called on select on line 93. </span>
+<span style="color: #008800; font-style: italic">// Function to apply style to the tileset.</span>
 <span style="color: #AA22FF; font-weight: bold">function</span> setStyle(style) {
     <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">function</span>() {
         tileset.style <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.Cesium3DTileStyle(style);
@@ -257,7 +243,7 @@ addStyle(<span style="color: #BB4444">&quot;Slope Only&quot;</span>, {
     <span style="color: #AA22FF; font-weight: bold">var</span> style <span style="color: #666666">=</span> styles[i];
     styleOptions.push({
         text<span style="color: #666666">:</span> style.name,
-        onselect<span style="color: #666666">:</span> setStyle(style.style),
+        onselect<span style="color: #666666">:</span> setStyle(style.style), <span style="color: #008800; font-style: italic">// apply style on select</span>
     });
 }
 <span style="color: #008800; font-style: italic">// Add the select menu to the map.</span>
