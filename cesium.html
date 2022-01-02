@@ -218,7 +218,7 @@ addStyle(<span style="color: #BB4444">&quot;All Points&quot;</span>, {
         conditions<span style="color: #666666">:</span> [
             [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
             [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
-            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else is vegetation</span>
+            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else </span>
         ]
     },
     show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} &lt; 10 &quot;</span>, <span style="color: #008800; font-style: italic">// errors are &gt; 9</span>
@@ -229,7 +229,7 @@ addStyle(<span style="color: #BB4444">&quot;Ground Points&quot;</span>, {
         conditions<span style="color: #666666">:</span> [
             [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
             [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
-            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else is vegetation</span>
+            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else</span>
         ]
     },
     show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>,
@@ -240,12 +240,12 @@ addStyle(<span style="color: #BB4444">&quot;Slope Only&quot;</span>, {
         conditions<span style="color: #666666">:</span> [
             [<span style="color: #BB4444">&quot;${Classification} === 2&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;brown&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Ground</span>
             [<span style="color: #BB4444">&quot;${Classification} === 9&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;blue&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Water</span>
-            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else is vegetation</span>
+            [<span style="color: #BB4444">&quot;true&quot;</span>, <span style="color: #BB4444">&quot;color(&#39;green&#39;)&quot;</span>], <span style="color: #008800; font-style: italic">// Everything else </span>
         ]
     },
     show<span style="color: #666666">:</span> <span style="color: #BB4444">&quot;${Classification} === 56&quot;</span>, <span style="color: #008800; font-style: italic">// This is not possible</span>
 });
-<span style="color: #008800; font-style: italic">// Function to apply style to the tileset. </span>
+<span style="color: #008800; font-style: italic">// Function to apply style to the tileset. This function is called on select on line 93. </span>
 <span style="color: #AA22FF; font-weight: bold">function</span> setStyle(style) {
     <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF; font-weight: bold">function</span>() {
         tileset.style <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.Cesium3DTileStyle(style);
