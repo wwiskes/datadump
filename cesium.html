@@ -114,13 +114,18 @@
 89
 90
 91
-92</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">// Access Key Here (yes I know I&#39;ve made my key public, its read only)</span>
+92
+93
+94
+95
+96
+97
+98</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-style: italic">// Access Key Here (yes I know I&#39;ve made my key public, its read only)</span>
 Cesium.Ion.defaultAccessToken <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MTc5MzVjMi00ZGIyLTQxOWItYWQzNy02ZjdmNjkzZjE3MTUiLCJpZCI6NzgwNTIsImlhdCI6MTY0MDc5NDk5Nn0.RF5UuYQaUWiPt9tFVwwGFlSgxIIM0bexarvLwqPbQhA&quot;</span>;
 <span style="color: #008800; font-style: italic">// Set up viewer. Imagery provider must be set to false and imagery added later to avoid extra data usage.</span>
 <span style="color: #AA22FF; font-weight: bold">var</span> viewer <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.Viewer(<span style="color: #BB4444">&quot;cesiumContainer&quot;</span>, {
     imageryProvider<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
     baseLayerPicker<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
-    homeButton<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
     sceneModePicker<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
     timeline<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
     animation<span style="color: #666666">:</span> <span style="color: #AA22FF; font-weight: bold">false</span>,
@@ -151,7 +156,14 @@ viewer.scene.globe.depthTestAgainstTerrain <span style="color: #666666">=</span>
 <span style="color: #AA22FF; font-weight: bold">var</span> credit <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.Credit(<span style="color: #BB4444">&#39;By William Wiskes&#39;</span>);
 viewer.scene.frameState.creditDisplay.addDefaultCredit(credit);
 <span style="color: #008800; font-style: italic">// Set the view.</span>
-viewer.zoomTo(tileset, <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.HeadingPitchRange(<span style="color: #666666">60.5</span>, <span style="color: #666666">-0.5</span>, <span style="color: #666666">3500.0</span>));
+<span style="color: #AA22FF; font-weight: bold">var</span> home <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">new</span> Cesium.HeadingPitchRange(<span style="color: #666666">60.5</span>, <span style="color: #666666">-0.5</span>, <span style="color: #666666">3500.0</span>);
+viewer.zoomTo(tileset, home);
+<span style="color: #008800; font-style: italic">// Set the home button.</span>
+viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
+   <span style="color: #AA22FF; font-weight: bold">function</span>(e) {
+      e.cancel <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">true</span>;
+      viewer.zoomTo(tileset, home);
+   });
 <span style="color: #008800; font-style: italic">// Make an empty list for styling the point cloud.</span>
 <span style="color: #AA22FF; font-weight: bold">var</span> styles <span style="color: #666666">=</span> [];
 <span style="color: #008800; font-style: italic">// Define a function for styling the point cloud.</span>
@@ -207,8 +219,6 @@ addStyle(<span style="color: #BB4444">&quot;Slope Only&quot;</span>, {
 <span style="color: #008800; font-style: italic">// Add the select menu to the map.</span>
 Sandcastle.addToolbarMenu(styleOptions);
 </pre></td></tr></table></div>
-
-      
       
       
       </div>
