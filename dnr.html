@@ -163,10 +163,11 @@
 90
 91
 92
-93</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span> P.project_id,
+93
+94</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span> P.project_id,
        PO.featureid,
        PO.shape,
-       Concat(P.title, <span style="color: #BB4444">&#39;_&#39;</span>, A.actiondescription) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name,
+       <span style="color: #AA22FF; font-weight: bold">CONCAT</span>(P.title, <span style="color: #BB4444">&#39;_&#39;</span>, A.actiondescription) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name,
        P.status                                  <span style="color: #AA22FF; font-weight: bold">AS</span> Effort_Status,
        MD.subactivity                            <span style="color: #AA22FF; font-weight: bold">AS</span> Activity,
        MD.subactivity_method                     <span style="color: #AA22FF; font-weight: bold">AS</span> Subactivity,
@@ -182,6 +183,7 @@
        P.projectstartdate                        <span style="color: #AA22FF; font-weight: bold">AS</span> Start_Date,
        P.projectenddate                          <span style="color: #AA22FF; font-weight: bold">AS</span> End_Date,
        <span style="color: #BB4444">&#39;Acres&#39;</span>                                   <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Type,
+       <span style="color: #008800; font-style: italic">-- Area left blank, must be filled in GIS software </span>
        <span style="color: #AA22FF; font-weight: bold">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Value,
        <span style="color: #AA22FF; font-weight: bold">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> GIS_Acres,
        <span style="color: #BB4444">&#39;9&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Implementing_Party,
@@ -191,7 +193,7 @@
        <span style="color: #008800; font-style: italic">/* NumberCollaborators must include DNR, this case statement is </span>
 <span style="color: #008800; font-style: italic">       checking if DNR is present and if it is not then adding +1 */</span>
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
-         <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.<span style="color: #AA22FF; font-weight: bold">state</span>, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+         <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.state, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span>)
        <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
        L.lnum                                    <span style="color: #AA22FF; font-weight: bold">AS</span> NumberLandOwners,
@@ -214,7 +216,7 @@
                          <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ( <span style="color: #AA22FF; font-weight: bold">CASE</span>
                                             <span style="color: #008800; font-style: italic">--only counting DNR to check if it is present</span>
                                             <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
-                                          <span style="color: #AA22FF; font-weight: bold">END</span> )) <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #AA22FF; font-weight: bold">state</span>,
+                                          <span style="color: #AA22FF; font-weight: bold">END</span> )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
                          <span style="color: #008800; font-style: italic">--Counting all agencies including DNR</span>
                          <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> agency)  <span style="color: #AA22FF; font-weight: bold">AS</span> notstate
                   <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
@@ -228,7 +230,7 @@
                                            Y
                                         <span style="color: #AA22FF; font-weight: bold">ON</span> X.agency <span style="color: #666666">=</span>
                                             Y.wri_agencyid) <span style="color: #AA22FF; font-weight: bold">AS</span>
-                                            <span style="color: #AA22FF; font-weight: bold">domain</span>
+                                            domain
                                          <span style="color: #AA22FF; font-weight: bold">ON</span> user_id <span style="color: #666666">=</span> user_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> users
                   <span style="color: #AA22FF; font-weight: bold">GROUP</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> project_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> U
               <span style="color: #AA22FF; font-weight: bold">ON</span> U.project_fk <span style="color: #666666">=</span> P.project_id
