@@ -25,195 +25,223 @@
 <div class="wiskes">
      
           <div style="background: #f8f8f8; overflow:auto;width:auto;border-radius: 5px;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-             <table><tr><td><pre class="william"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span> P.project_id,
-       PO.featureid,
-       PO.shape,
-       <span style="color: #AA22FF; font-weight: bold">CONCAT</span>(P.title, <span style="color: #BB4444">&#39;_&#39;</span>, A.actiondescription) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name,
-       P.status                                  <span style="color: #AA22FF; font-weight: bold">AS</span> Effort_Status,
-       MD.subactivity                            <span style="color: #AA22FF; font-weight: bold">AS</span> Activity,
-       MD.subactivity_method                     <span style="color: #AA22FF; font-weight: bold">AS</span> Subactivity,
-       <span style="color: #AA22FF; font-weight: bold">CASE</span>
-         <span style="color: #AA22FF; font-weight: bold">WHEN</span> PC.categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Fire Rehab&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Yes&#39;</span>
-         <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;No&#39;</span>
-       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Post_Fire,
-       <span style="color: #AA22FF; font-weight: bold">CASE</span>
-         <span style="color: #AA22FF; font-weight: bold">WHEN</span> A.actiondescription <span style="color: #AA22FF; font-weight: bold">IN</span> (
-              <span style="color: #BB4444">&#39;Seeding (primary)&#39;</span>, <span style="color: #BB4444">&#39;Seeding (secondary/shrub)&#39;</span>
-                                     ) <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Native/Non-Native Mixed&#39;</span>
-       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Seeding_Type,
-       P.projectstartdate                        <span style="color: #AA22FF; font-weight: bold">AS</span> Start_Date,
-       P.projectenddate                          <span style="color: #AA22FF; font-weight: bold">AS</span> End_Date,
-       <span style="color: #BB4444">&#39;Acres&#39;</span>                                   <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Type,
-       <span style="color: #008800; font-style: italic">-- Area left blank, must be filled in by GIS software </span>
-       <span style="color: #AA22FF; font-weight: bold">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Value,
-       <span style="color: #AA22FF; font-weight: bold">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> GIS_Acres,
-       <span style="color: #BB4444">&#39;9&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Implementing_Party,
-       <span style="color: #BB4444">&#39;116&#39;</span>                                     <span style="color: #AA22FF; font-weight: bold">AS</span> Office,
-       <span style="color: #BB4444">&#39;Tyler Thompson&#39;</span>                          <span style="color: #AA22FF; font-weight: bold">AS</span> Created_By,
-       <span style="color: #BB4444">&#39;0&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberDocs,
-       <span style="color: #008800; font-style: italic">/* NumberCollaborators must include DNR, this case statement is </span>
-<span style="color: #008800; font-style: italic">       checking if DNR is present and if it is not then adding +1 */</span>
-       <span style="color: #AA22FF; font-weight: bold">CASE</span>
-         <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.state, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
-         <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span>)
-       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
-       L.lnum                                    <span style="color: #AA22FF; font-weight: bold">AS</span> NumberLandOwners,
-       <span style="color: #BB4444">&#39;3&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Effectiveness_Status,
-       <span style="color: #AA22FF; font-weight: bold">Isnull</span>(numberthreatsaddress, <span style="color: #666666">0</span>)           <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress
-<span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.areaaction <span style="color: #AA22FF; font-weight: bold">AS</span> A
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.methods_domain <span style="color: #AA22FF; font-weight: bold">AS</span> MD
-              <span style="color: #AA22FF; font-weight: bold">ON</span> MD.actionid <span style="color: #666666">=</span> A.actionid
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.poly <span style="color: #AA22FF; font-weight: bold">AS</span> PO
-              <span style="color: #AA22FF; font-weight: bold">ON</span> PO.featureid <span style="color: #666666">=</span> A.featureid
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> featureid,
-                         <span style="color: #008800; font-style: italic">-- counting number of landowners in each feature </span>
-                         <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #666666">*</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> lnum
-                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.landowner
-                  <span style="color: #AA22FF; font-weight: bold">GROUP</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> featureid) <span style="color: #AA22FF; font-weight: bold">AS</span> L
-              <span style="color: #AA22FF; font-weight: bold">ON</span> PO.featureid <span style="color: #666666">=</span> L.featureid
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.project <span style="color: #AA22FF; font-weight: bold">AS</span> P
-              <span style="color: #AA22FF; font-weight: bold">ON</span> PO.project_id <span style="color: #666666">=</span> P.project_id
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
-                         <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ( <span style="color: #AA22FF; font-weight: bold">CASE</span>
-                                            <span style="color: #008800; font-style: italic">--only counting DNR to check if it is present</span>
-                                            <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
-                                          <span style="color: #AA22FF; font-weight: bold">END</span> )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
-                         <span style="color: #008800; font-style: italic">--Counting all agencies including DNR</span>
-                         <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> agency)  <span style="color: #AA22FF; font-weight: bold">AS</span> notstate
-                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
-                                 user_fk,
-                                 ced_code <span style="color: #AA22FF; font-weight: bold">AS</span> Agency
-                          <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.contributor
-                                 <span style="color: #AA22FF; font-weight: bold">RIGHT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> ced_code,
-                                                    user_id
-                                             <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.users <span style="color: #AA22FF; font-weight: bold">AS</span> X
-                                 <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.agency_domain <span style="color: #AA22FF; font-weight: bold">AS</span>
-                                           Y
-                                        <span style="color: #AA22FF; font-weight: bold">ON</span> X.agency <span style="color: #666666">=</span>
-                                            Y.wri_agencyid) <span style="color: #AA22FF; font-weight: bold">AS</span>
-                                            domain
-                                         <span style="color: #AA22FF; font-weight: bold">ON</span> user_id <span style="color: #666666">=</span> user_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> users
-                  <span style="color: #AA22FF; font-weight: bold">GROUP</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> project_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> U
-              <span style="color: #AA22FF; font-weight: bold">ON</span> U.project_fk <span style="color: #666666">=</span> P.project_id
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #666666">*</span>
-                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.projectcategoryother
-                  <span style="color: #008800; font-style: italic">--checking if fire was present</span>
-                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Fire Rehab&#39;</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> PC
-              <span style="color: #AA22FF; font-weight: bold">ON</span> P.project_id <span style="color: #666666">=</span> PC.project_id
-       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_id,
-                         <span style="color: #008800; font-style: italic">--counting distinct threats per project</span>
-                         <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ced_code) <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress
-                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.species
-                         <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> TD.threat_id,
-                                           ced_code,
-                                           species_id,
-                                           impact_id
-                                    <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.species_threat_impact <span style="color: #AA22FF; font-weight: bold">AS</span> TI
-                                           <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.threats_domain <span style="color: #AA22FF; font-weight: bold">AS</span>
-                                                     TD
-                                                  <span style="color: #AA22FF; font-weight: bold">ON</span> TD.threat_id <span style="color: #666666">=</span> TI.threat_id
-                                    <span style="color: #008800; font-style: italic">--CED must be &gt; 0 because 0 are not threats, but are listed</span>
-                                    <span style="color: #AA22FF; font-weight: bold">WHERE</span>  ced_code <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> TITD
-                                <span style="color: #AA22FF; font-weight: bold">ON</span> species.threat_id <span style="color: #666666">=</span> TITD.threat_id
-                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  project_id <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #AA22FF; font-weight: bold">NULL</span>
-                         <span style="color: #AA22FF; font-weight: bold">AND</span> ced_code <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #AA22FF; font-weight: bold">NULL</span>
-                  <span style="color: #AA22FF; font-weight: bold">GROUP</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> project_id) <span style="color: #AA22FF; font-weight: bold">AS</span> T
-              <span style="color: #AA22FF; font-weight: bold">ON</span> T.project_id <span style="color: #666666">=</span> P.project_id
+             <table><tr><td><pre class="william">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span>    P.projectid,
+          P.fiscalyearcompleted,
+          PO.featureid,
+          PO.shape,
+                    <span style="color: #AA22FF; font-weight: bold">CONCAT</span>(P.title, <span style="color: #BB4444">&#39;&#39;</span>, A.actiondescription) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name,
+          P.status                                           <span style="color: #AA22FF; font-weight: bold">AS</span> Effort_Status,
+          MD.subactivity                                     <span style="color: #AA22FF; font-weight: bold">AS</span> Activity,
+          MD.subactivity_method                              <span style="color: #AA22FF; font-weight: bold">AS</span> Subactivity,
+          <span style="color: #AA22FF; font-weight: bold">CASE</span>
+                    <span style="color: #AA22FF; font-weight: bold">WHEN</span> PC.categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Fire Rehab&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Yes&#39;</span>
+                    <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;No&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">END</span> <span style="color: #AA22FF; font-weight: bold">AS</span> Post_Fire,
+          <span style="color: #AA22FF; font-weight: bold">CASE</span>
+                    <span style="color: #AA22FF; font-weight: bold">WHEN</span> A.actiondescription <span style="color: #AA22FF; font-weight: bold">IN</span> (<span style="color: #BB4444">&#39;Seeding (primary)&#39;</span>,
+                                                 <span style="color: #BB4444">&#39;Seeding (secondary/shrub)&#39;</span>) <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Native/Non-Native Mixed&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">END</span>                <span style="color: #AA22FF; font-weight: bold">AS</span> Seeding_Type,
+          P.projectstartdate <span style="color: #AA22FF; font-weight: bold">AS</span> Start_Date,
+          P.projectenddate   <span style="color: #AA22FF; font-weight: bold">AS</span> End_Date,
+          <span style="color: #BB4444">&#39;Acres&#39;</span>            <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Type,
+          <span style="color: #008800; font-style: italic">-- Area left blank, must be filled in by GIS software</span>
+          <span style="color: #AA22FF; font-weight: bold">NULL</span>             <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Value,
+          <span style="color: #AA22FF; font-weight: bold">NULL</span>             <span style="color: #AA22FF; font-weight: bold">AS</span> GIS_Acres,
+          <span style="color: #BB4444">&#39;9&#39;</span>              <span style="color: #AA22FF; font-weight: bold">AS</span> Implementing_Party,
+          <span style="color: #BB4444">&#39;116&#39;</span>            <span style="color: #AA22FF; font-weight: bold">AS</span> Office,
+          <span style="color: #BB4444">&#39;Tyler Thompson&#39;</span> <span style="color: #AA22FF; font-weight: bold">AS</span> Created_By,
+          <span style="color: #BB4444">&#39;0&#39;</span>              <span style="color: #AA22FF; font-weight: bold">AS</span> NumberDocs,
+          <span style="color: #008800; font-style: italic">/* NumberCollaborators must include DNR, this case statement is</span>
+<span style="color: #008800; font-style: italic">           checking if DNR is present and if it is not then adding +1 */</span>
+          <span style="color: #AA22FF; font-weight: bold">CASE</span>
+                    <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.state, <span style="color: #666666">0</span> ) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+                    <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #AA22FF; font-weight: bold">Isnull</span>(U.notstate, <span style="color: #666666">0</span> )
+          <span style="color: #AA22FF; font-weight: bold">END</span>                             <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
+          L.lnum                          <span style="color: #AA22FF; font-weight: bold">AS</span> NumberLandOwners,
+          <span style="color: #BB4444">&#39;3&#39;</span>                             <span style="color: #AA22FF; font-weight: bold">AS</span> Effectiveness_Status,
+          <span style="color: #AA22FF; font-weight: bold">Isnull</span>(numberthreatsaddress, <span style="color: #666666">0</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress
+<span style="color: #AA22FF; font-weight: bold">FROM</span>      wri.dbo.areaaction              <span style="color: #AA22FF; font-weight: bold">AS</span> A
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.methods_domain          <span style="color: #AA22FF; font-weight: bold">AS</span> MD
+<span style="color: #AA22FF; font-weight: bold">ON</span>        MD.actionid <span style="color: #666666">=</span> A.actionid
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.poly <span style="color: #AA22FF; font-weight: bold">AS</span> PO
+<span style="color: #AA22FF; font-weight: bold">ON</span>        PO.featureid <span style="color: #666666">=</span> A.featureid
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+          (
+                   <span style="color: #AA22FF; font-weight: bold">SELECT</span>   featureid,
+                            <span style="color: #008800; font-style: italic">-- counting number of landowners in each feature</span>
+                            <span style="color: #AA22FF; font-weight: bold">Count</span>() <span style="color: #AA22FF; font-weight: bold">AS</span> lnum
+                   <span style="color: #AA22FF; font-weight: bold">FROM</span>     wri.dbo.landowner
+                   <span style="color: #AA22FF; font-weight: bold">GROUP</span> <span style="color: #AA22FF; font-weight: bold">BY</span> featureid) <span style="color: #AA22FF; font-weight: bold">AS</span> L
+<span style="color: #AA22FF; font-weight: bold">ON</span>        PO.featureid <span style="color: #666666">=</span> L.featureid
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.project <span style="color: #AA22FF; font-weight: bold">AS</span> P
+<span style="color: #AA22FF; font-weight: bold">ON</span>        PO.project_id <span style="color: #666666">=</span> P.project_id
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+          (
+                   <span style="color: #AA22FF; font-weight: bold">SELECT</span>   project_fk,
+                            <span style="color: #008800; font-style: italic">--only counting DNR to check if it is present</span>
+                            <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> (
+                            <span style="color: #AA22FF; font-weight: bold">CASE</span>
+                                     <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
+                            <span style="color: #AA22FF; font-weight: bold">END</span>)) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
+                            <span style="color: #008800; font-style: italic">--Counting all agencies including DNR</span>
+                            <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> agency) <span style="color: #AA22FF; font-weight: bold">AS</span> notstate
+                   <span style="color: #AA22FF; font-weight: bold">FROM</span>     (
+                                       <span style="color: #AA22FF; font-weight: bold">SELECT</span>     project_fk,
+                                                  user_fk,
+                                                  ced_code <span style="color: #AA22FF; font-weight: bold">AS</span> Agency
+                                       <span style="color: #AA22FF; font-weight: bold">FROM</span>       wri.dbo.contributor
+                                       <span style="color: #AA22FF; font-weight: bold">RIGHT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+                                                  (
+                                                            <span style="color: #AA22FF; font-weight: bold">SELECT</span>    ced_code,
+                                                                      user_id
+                                                            <span style="color: #AA22FF; font-weight: bold">FROM</span>      wri.dbo.users         <span style="color: #AA22FF; font-weight: bold">AS</span> X
+                                                            <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.agency_domain <span style="color: #AA22FF; font-weight: bold">AS</span> Y
+                                                            <span style="color: #AA22FF; font-weight: bold">ON</span>        X.agency <span style="color: #666666">=</span> Y.wri_agencyid) <span style="color: #AA22FF; font-weight: bold">AS</span> domain
+                                       <span style="color: #AA22FF; font-weight: bold">ON</span>         user_id <span style="color: #666666">=</span> user_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> users
+                   <span style="color: #AA22FF; font-weight: bold">GROUP</span> <span style="color: #AA22FF; font-weight: bold">BY</span> project_fk) <span style="color: #AA22FF; font-weight: bold">AS</span> U
+<span style="color: #AA22FF; font-weight: bold">ON</span>        U.project_fk <span style="color: #666666">=</span> P.project_id
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+          (
+                 <span style="color: #AA22FF; font-weight: bold">SELECT</span>
+                 <span style="color: #AA22FF; font-weight: bold">from</span>   wri.dbo.PROJECTCATEGORYOTHER
+                        <span style="color: #008800; font-style: italic">--checking if fire was present</span>
+                 <span style="color: #AA22FF; font-weight: bold">WHERE</span>  categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Fire Rehab&#39;</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> PC
+<span style="color: #AA22FF; font-weight: bold">ON</span>        P.project_id <span style="color: #666666">=</span> PC.project_id
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+          (
+                    <span style="color: #AA22FF; font-weight: bold">SELECT</span>    project_id,
+                              <span style="color: #008800; font-style: italic">--counting distinct threats per project</span>
+                              <span style="color: #AA22FF; font-weight: bold">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ced_code) <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress
+                    <span style="color: #AA22FF; font-weight: bold">FROM</span>      wri.dbo.species
+                    <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+                              (
+                                        <span style="color: #AA22FF; font-weight: bold">SELECT</span>    TD.threat_id,
+                                                  ced_code,
+                                                  species_id,
+                                                  impact_id
+                                        <span style="color: #AA22FF; font-weight: bold">FROM</span>      wri.dbo.species_threat_impact <span style="color: #AA22FF; font-weight: bold">AS</span> TI
+                                        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.threats_domain        <span style="color: #AA22FF; font-weight: bold">AS</span> TD
+                                        <span style="color: #AA22FF; font-weight: bold">ON</span>        TD.threat_id <span style="color: #666666">=</span> TI.threat_id
+                                                  <span style="color: #008800; font-style: italic">--CED must be &gt; 0 because 0 are not threats, but are listed</span>
+                                        <span style="color: #AA22FF; font-weight: bold">WHERE</span>     ced_code <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> TITD
+                    <span style="color: #AA22FF; font-weight: bold">ON</span>        species.threat_id <span style="color: #666666">=</span> TITD.threat_id
+                    <span style="color: #AA22FF; font-weight: bold">WHERE</span>     project_id <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #AA22FF; font-weight: bold">NULL</span>
+                    <span style="color: #AA22FF; font-weight: bold">AND</span>       ced_code <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #AA22FF; font-weight: bold">NULL</span>
+                    <span style="color: #AA22FF; font-weight: bold">GROUP</span> <span style="color: #AA22FF; font-weight: bold">BY</span>  project_id) <span style="color: #AA22FF; font-weight: bold">AS</span> T
+<span style="color: #AA22FF; font-weight: bold">ON</span>        T.project_id <span style="color: #666666">=</span> P.project_id
+<span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.projectcategoryfunding <span style="color: #AA22FF; font-weight: bold">AS</span> PCF
+<span style="color: #AA22FF; font-weight: bold">ON</span>        PCF.project_id <span style="color: #666666">=</span> P.project_id
+          <span style="color: #008800; font-style: italic">-- Filter to only WRI projects</span>
+<span style="color: #AA22FF; font-weight: bold">WHERE</span>     categoryfundingid <span style="color: #666666">=</span> <span style="color: #666666">1</span>
 </pre></td></tr></table></div>
-          
+
         </div>
 
   </body>
