@@ -182,7 +182,7 @@
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ( <span style="color: #AA22FF; font-weight: bold">CASE</span>
                                             <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
                                           END )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
-                         <span style="color: #666666">--</span>Counting <span style="color: #AA22FF; font-weight: bold">all</span> agencies including DNR
+                         <span style="color: #008800; font-style: italic">-- counting all agencies including DNR </span>
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> agency)  <span style="color: #AA22FF; font-weight: bold">AS</span> notstate
                   <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
                                  user_fk,
