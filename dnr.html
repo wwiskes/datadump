@@ -178,7 +178,7 @@
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.project <span style="color: #AA22FF; font-weight: bold">AS</span> P
               <span style="color: #AA22FF; font-weight: bold">ON</span> PO.project_id <span style="color: #666666">=</span> P.project_id
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
-                         <span style="color: #666666">--</span>only counting DNR <span style="color: #AA22FF; font-weight: bold">to</span> <span style="color: #AA22FF; font-weight: bold">check</span> <span style="color: #AA22FF; font-weight: bold">if</span> it <span style="color: #AA22FF; font-weight: bold">is</span> present
+                         <span style="color: #008800; font-style: italic">-- only counting DNR to check if it is present </span>
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ( <span style="color: #AA22FF; font-weight: bold">CASE</span>
                                             <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
                                           END )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
