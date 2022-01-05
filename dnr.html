@@ -145,8 +145,8 @@
        P.projectenddate                          <span style="color: #AA22FF; font-weight: bold">AS</span> End_Date,
        <span style="color: #BB4444">&#39;Acres&#39;</span>                                   <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Type,
        <span style="color: #008800; font-style: italic">-- Area left blank, must be filled in by GIS software</span>
-       <span style="color: #880000">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Value,
-       <span style="color: #880000">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> GIS_Acres,
+       <span style="color: #EB0000">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Value,
+       <span style="color: #EB0000">NULL</span>                                      <span style="color: #AA22FF; font-weight: bold">AS</span> GIS_Acres,
        <span style="color: #BB4444">&#39;9&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Implementing_Party,
        <span style="color: #BB4444">&#39;116&#39;</span>                                     <span style="color: #AA22FF; font-weight: bold">AS</span> Office,
        <span style="color: #BB4444">&#39;Tyler Thompson&#39;</span>                          <span style="color: #AA22FF; font-weight: bold">AS</span> Created_By,
@@ -216,8 +216,8 @@
                                     <span style="color: #008800; font-style: italic">-- CED must be &gt; 0 because 0s are not threats, but are listed</span>
                                     <span style="color: #AA22FF; font-weight: bold">WHERE</span>  ced_code <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> TITD
                                 <span style="color: #AA22FF; font-weight: bold">ON</span> species.threat_id <span style="color: #666666">=</span> TITD.threat_id
-                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  project_id <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #880000">NULL</span>
-                         <span style="color: #AA22FF; font-weight: bold">AND</span> ced_code <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #880000">NULL</span>
+                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  project_id <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #EB0000">NULL</span>
+                         <span style="color: #AA22FF; font-weight: bold">AND</span> ced_code <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #EB0000">NULL</span>
                   <span style="color: #AA22FF; font-weight: bold">GROUP</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> project_id) <span style="color: #AA22FF; font-weight: bold">AS</span> T
               <span style="color: #AA22FF; font-weight: bold">ON</span> T.project_id <span style="color: #666666">=</span> P.project_id
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.projectcategoryfunding <span style="color: #AA22FF; font-weight: bold">AS</span> PCF
