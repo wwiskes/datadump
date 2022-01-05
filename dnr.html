@@ -154,7 +154,7 @@
        <span style="color: #008800; font-style: italic">/* NumberCollaborators must include DNR, this case statement is</span>
 <span style="color: #008800; font-style: italic">       checking if DNR is present and if it is not then adding +1 */</span>
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
-         <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #0000FF">Isnull</span>(U.state, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #00A000">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
+         <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #0000FF">Isnull</span>(U.state, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #0000FF">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #0000FF">Isnull</span>(U.notstate, <span style="color: #666666">0</span>)
        <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
        L.lnum                                    <span style="color: #AA22FF; font-weight: bold">AS</span> NumberLandOwners,
