@@ -213,7 +213,7 @@
                                            <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.threats_domain <span style="color: #AA22FF; font-weight: bold">AS</span>
                                                      TD
                                                   <span style="color: #AA22FF; font-weight: bold">ON</span> TD.threat_id <span style="color: #666666">=</span> TI.threat_id
-                                    <span style="color: #666666">--</span>CED must be <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span> because <span style="color: #666666">0</span> are <span style="color: #AA22FF; font-weight: bold">not</span> threats, but are listed
+                                    <span style="color: #008800; font-style: italic">-- CED must be &gt; 0 because 0s are not threats, but are listed</span>
                                     <span style="color: #AA22FF; font-weight: bold">WHERE</span>  ced_code <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> TITD
                                 <span style="color: #AA22FF; font-weight: bold">ON</span> species.threat_id <span style="color: #666666">=</span> TITD.threat_id
                   <span style="color: #AA22FF; font-weight: bold">WHERE</span>  project_id <span style="color: #AA22FF; font-weight: bold">IS</span> <span style="color: #AA22FF; font-weight: bold">NOT</span> <span style="color: #880000">NULL</span>
