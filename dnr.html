@@ -202,7 +202,7 @@
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.projectcategoryother <span style="color: #AA22FF; font-weight: bold">AS</span> PC
               <span style="color: #AA22FF; font-weight: bold">ON</span> P.project_id <span style="color: #666666">=</span> PC.project_id
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_id,
-                         <span style="color: #666666">--</span>counting <span style="color: #AA22FF; font-weight: bold">distinct</span> threats per project
+                         <span style="color: #008800; font-style: italic">-- counting distinct threats per project</span>
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ced_code) <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress
                   <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.species
                          <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> TD.threat_id,
