@@ -72,7 +72,7 @@
                                        <span style="color: #AA22FF; font-weight: bold">SELECT</span>    blocks.name, 
                                                  commonname <span style="color: #AA22FF; font-weight: bold">AS</span> common_name, 
                                                  projectcode::<span style="color: #AA22FF">varchar</span>(<span style="color: #666666">1</span>), 
-                                                 ST_AsGeoJSON(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
+                                                 <span style="color: #0000FF">ST_AsGeoJSON</span>(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
                                        <span style="color: #AA22FF; font-weight: bold">FROM</span>      historic 
                                        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> list19p 
                                        <span style="color: #AA22FF; font-weight: bold">ON</span>        species <span style="color: #666666">=</span> spec 
@@ -83,7 +83,7 @@
                                        <span style="color: #AA22FF; font-weight: bold">SELECT</span>    blocks.name, 
                                                  common_name, 
                                                  projectcode::<span style="color: #AA22FF">varchar</span>(<span style="color: #666666">1</span>), 
-                                                 ST_AsGeoJSON(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
+                                                 <span style="color: #0000FF">ST_AsGeoJSON</span>(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
                                        <span style="color: #AA22FF; font-weight: bold">FROM</span>      ebirdjuly 
                                        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> blocks 
                                        <span style="color: #AA22FF; font-weight: bold">ON</span>        blocks.name <span style="color: #666666">=</span> ebirdjuly.name) <span style="color: #AA22FF; font-weight: bold">AS</span> nest 
