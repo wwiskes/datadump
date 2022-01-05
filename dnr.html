@@ -135,12 +135,12 @@
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
          <span style="color: #AA22FF; font-weight: bold">WHEN</span> PC.categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Fire Rehab&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Yes&#39;</span>
          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;No&#39;</span>
-       END                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Post_Fire,
+       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Post_Fire,
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
          <span style="color: #AA22FF; font-weight: bold">WHEN</span> A.actiondescription <span style="color: #AA22FF; font-weight: bold">IN</span> (
               <span style="color: #BB4444">&#39;Seeding (primary)&#39;</span>, <span style="color: #BB4444">&#39;Seeding (secondary/shrub)&#39;</span>
                                      ) <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Native/Non-Native Mixed&#39;</span>
-       END                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Seeding_Type,
+       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Seeding_Type,
        P.projectstartdate                        <span style="color: #AA22FF; font-weight: bold">AS</span> Start_Date,
        P.projectenddate                          <span style="color: #AA22FF; font-weight: bold">AS</span> End_Date,
        <span style="color: #BB4444">&#39;Acres&#39;</span>                                   <span style="color: #AA22FF; font-weight: bold">AS</span> Metric_Type,
@@ -156,14 +156,14 @@
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
          <span style="color: #AA22FF; font-weight: bold">WHEN</span> <span style="color: #00A000">Isnull</span>(U.state, <span style="color: #666666">0</span>) <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #00A000">Isnull</span>(U.notstate, <span style="color: #666666">0</span> ) <span style="color: #666666">+</span> <span style="color: #666666">1</span>
          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #00A000">Isnull</span>(U.notstate, <span style="color: #666666">0</span>)
-       END                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
+       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> NumberCollaborators,
        L.lnum                                    <span style="color: #AA22FF; font-weight: bold">AS</span> NumberLandOwners,
        <span style="color: #BB4444">&#39;3&#39;</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> Effectiveness_Status,
        <span style="color: #00A000">Isnull</span>(numberthreatsaddress, <span style="color: #666666">0</span>)           <span style="color: #AA22FF; font-weight: bold">AS</span> NumberThreatsAddress,
        <span style="color: #AA22FF; font-weight: bold">CASE</span>
          <span style="color: #AA22FF; font-weight: bold">WHEN</span> PC.categoryother <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;Sagebrush Restoration&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Yes&#39;</span>
          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;No&#39;</span>
-       END                                       <span style="color: #AA22FF; font-weight: bold">AS</span> SagebrushRestoration
+       <span style="color: #AA22FF; font-weight: bold">END</span>                                       <span style="color: #AA22FF; font-weight: bold">AS</span> SagebrushRestoration
 <span style="color: #AA22FF; font-weight: bold">FROM</span>   wri.dbo.areaaction <span style="color: #AA22FF; font-weight: bold">AS</span> A
        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> wri.dbo.methods_domain <span style="color: #AA22FF; font-weight: bold">AS</span> MD
               <span style="color: #AA22FF; font-weight: bold">ON</span> MD.actionid <span style="color: #666666">=</span> A.actionid
@@ -181,7 +181,7 @@
                          <span style="color: #008800; font-style: italic">-- only counting DNR to check if it is present </span>
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> ( <span style="color: #AA22FF; font-weight: bold">CASE</span>
                                             <span style="color: #AA22FF; font-weight: bold">WHEN</span> agency <span style="color: #666666">=</span> <span style="color: #666666">9</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> agency
-                                          END )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
+                                          <span style="color: #AA22FF; font-weight: bold">END</span> )) <span style="color: #AA22FF; font-weight: bold">AS</span> state,
                          <span style="color: #008800; font-style: italic">-- counting all agencies including DNR </span>
                          <span style="color: #00A000">Count</span>(<span style="color: #AA22FF; font-weight: bold">DISTINCT</span> agency)  <span style="color: #AA22FF; font-weight: bold">AS</span> notstate
                   <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> project_fk,
