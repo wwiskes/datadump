@@ -58,11 +58,11 @@
 31
 32
 33</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span>   spec <span style="color: #AA22FF; font-weight: bold">AS</span> species, 
-         <span style="color: #AA22FF; font-weight: bold">Sum</span>( 
+         <span style="color: #0000FF">Sum</span>( 
          <span style="color: #AA22FF; font-weight: bold">CASE</span> 
                   <span style="color: #AA22FF; font-weight: bold">WHEN</span> projectcode <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;S&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #666666">1</span> 
          <span style="color: #AA22FF; font-weight: bold">END</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> shuford, 
-         <span style="color: #AA22FF; font-weight: bold">Sum</span>( 
+         <span style="color: #0000FF">Sum</span>( 
          <span style="color: #AA22FF; font-weight: bold">CASE</span> 
                   <span style="color: #AA22FF; font-weight: bold">WHEN</span> projectcode <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;E&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #666666">1</span> 
          <span style="color: #AA22FF; font-weight: bold">END</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> ebird 
