@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>MCBBA Habitat</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.23/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.23/"></script>
+
+    <script>
+      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer"], (
+        Map,
+        GeoJSONLayer,
+        MapView,
+        FeatureLayer
+      ) => {
+
+        const url =
+          "https://raw.githubusercontent.com/wwiskes/datadump/main/mcbba.geojson";
+
+        const renderer = {
+          type: "simple",
+          symbol: {
+            type: "simple-line",
+            color: "black"
+          }
+        };
+        const labelClass = {
+            symbol: {
+              type: "text",  
+              color: "black",
+              font: {  
+                size: 12,
+                weight: "bold"
+              }
+            },
+            labelExpressionInfo: {
+              expression: "$feature.name"
+            }
+          };
+        const geojsonLayer = new GeoJSONLayer({
+          url: url,
+          copyright: "William Wiskes",
+          labelingInfo: [labelClass],
+          renderer: renderer,
+          orderBy: {
+            field: "name"
+          }
+        });
+
+        const layer = new FeatureLayer({
+          url: "https://services5.arcgis.com/tdQLEzq0fgVElWN3/arcgis/rest/services/Marin_Finescale_Veg_Map/FeatureServer",
+          popupTemplate: {
+                title: "{LIFEFORM_18}"
+              }
+        });
+
+        const map = new Map({
+          basemap: "gray-vector",
+          layers: [layer, geojsonLayer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          center: [-122.74, 38.04],
+          zoom: 9,
+          map: map
+        });
+
+});
+
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
