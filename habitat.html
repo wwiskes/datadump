@@ -83,14 +83,14 @@
         });
 
         const map = new Map({
-          basemap: "gray-vector",
+          basemap: "osm",
           layers: [layer, geojsonLayer]
         });
 
         const view = new MapView({
           container: "viewDiv",
           center: [-122.74, 38.06],
-          zoom: 10,
+          zoom: 11,
           map: map
         });
 
@@ -101,12 +101,12 @@
 
         view.ui.add(toggle, "bottom-left");
 
-        const Toggle = document.getElementById("layer");
+        const habitat = document.getElementById("layer");
 
         // Listen to the change event for the checkbox
-        Toggle.addEventListener("change", () => {
+        habitat.addEventListener("change", () => {
           // When the checkbox is checked (true), set the layer's visibility to true
-          layer.visible = Toggle.checked;
+          layer.visible = habitat.checked;
         });
 
 });
@@ -116,6 +116,6 @@
 
   <body>
     <div id="viewDiv"></div>
-    <span id="layerToggle" class="esri-widget"> <input type="checkbox" id="layer" checked/> Habitat </span>
+    <span id="layerToggle" class="esri-widget"> <input type="checkbox" id="layer" style="cursor: pointer;" checked/> Habitat </span>
   </body>
 </html>
