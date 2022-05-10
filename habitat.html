@@ -36,12 +36,13 @@
     <script src="https://js.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/BasemapToggle"], (
+      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/BasemapToggle", "esri/widgets/ScaleBar"], (
         Map,
         GeoJSONLayer,
         MapView,
         FeatureLayer,
-        BasemapToggle
+        BasemapToggle,
+        ScaleBar
       ) => {
 
         const url =
@@ -103,10 +104,17 @@
 
         const habitat = document.getElementById("layer");
 
-        // Listen to the change event for the checkbox
         habitat.addEventListener("change", () => {
-          // When the checkbox is checked (true), set the layer's visibility to true
           layer.visible = habitat.checked;
+        });
+
+        const scaleBar = new ScaleBar({
+          view: view,
+          unit: "dual" 
+        });
+
+        view.ui.add(scaleBar, {
+          position: "bottom-right"
         });
 
 });
