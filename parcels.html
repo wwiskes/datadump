@@ -25,11 +25,12 @@
     <script src="https://js.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer"], (
+      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/BasemapToggle"], (
         Map,
         GeoJSONLayer,
         MapView,
-        FeatureLayer
+        FeatureLayer,
+        BasemapToggle
       ) => {
 
         const url =
@@ -62,11 +63,24 @@
           renderer: renderer
         });
 
+        let renderer2 = {
+            type: "simple",  
+            symbol: {
+              type: "simple-fill", 
+              color: [ 255, 128, 0, 0 ],
+              outline: {  
+                width: 1,
+                color: "red"
+              }
+            }
+          };
+
         const layer = new FeatureLayer({
           url: "https://gis.marinpublic.com/arcgis/rest/services/MarinMap2/Open_Data_Download/MapServer/35",
           popupTemplate: {
                 title: "{PropID}"
-              }
+              },
+              renderer: renderer2
         });
 
         const map = new Map({
@@ -81,6 +95,12 @@
           map: map
         });
 
+        const toggle = new BasemapToggle({
+          view: view, 
+          nextBasemap: "hybrid" 
+        });
+
+        view.ui.add(toggle, "bottom-left");
 });
 
     </script>

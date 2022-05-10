@@ -16,6 +16,17 @@
         height: 100%;
         width: 100%;
       }
+
+      #layerToggle {
+        top: 20px;
+        right: 20px;
+        position: absolute;
+        z-index: 99;
+        background-color: white;
+        border-radius: 8px;
+        padding: 10px;
+        opacity: 0.75;
+      }
     </style>
 
     <link
@@ -25,11 +36,12 @@
     <script src="https://js.arcgis.com/4.23/"></script>
 
     <script>
-      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer"], (
+      require(["esri/Map", "esri/layers/GeoJSONLayer", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/BasemapToggle"], (
         Map,
         GeoJSONLayer,
         MapView,
-        FeatureLayer
+        FeatureLayer,
+        BasemapToggle
       ) => {
 
         const url =
@@ -64,6 +76,7 @@
 
         const layer = new FeatureLayer({
           url: "https://services5.arcgis.com/tdQLEzq0fgVElWN3/arcgis/rest/services/Marin_Finescale_Veg_Map/FeatureServer",
+          id: "layer",
           popupTemplate: {
                 title: "{LIFEFORM_18}"
               }
@@ -81,6 +94,21 @@
           map: map
         });
 
+        const toggle = new BasemapToggle({
+          view: view, 
+          nextBasemap: "hybrid" 
+        });
+
+        view.ui.add(toggle, "bottom-left");
+
+        const Toggle = document.getElementById("layer");
+
+        // Listen to the change event for the checkbox
+        Toggle.addEventListener("change", () => {
+          // When the checkbox is checked (true), set the layer's visibility to true
+          layer.visible = Toggle.checked;
+        });
+
 });
 
     </script>
@@ -88,5 +116,6 @@
 
   <body>
     <div id="viewDiv"></div>
+    <span id="layerToggle" class="esri-widget"> <input type="checkbox" id="layer" checked/> Habitat </span>
   </body>
 </html>
