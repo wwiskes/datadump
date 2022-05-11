@@ -1,0 +1,68 @@
+
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+      <title>ArcGIS API for JavaScript Tutorials: Change the basemap layer</title>
+      <style>
+        html, body, #viewDiv {
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+      </style>
+      
+      <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+      <script src="https://js.arcgis.com/4.23/"></script>
+      
+      <script>  
+    //<!--@@Start(codeContext)-->
+        require([
+          "esri/config",
+          "esri/Map",
+          "esri/views/MapView",
+    //<!--@@Start(newModules)-->
+          "esri/widgets/BasemapToggle",
+          "esri/widgets/BasemapGallery"
+    //<!--@@End(newModules) @@Start(addFunction)-->
+        ], function(esriConfig, Map, MapView, BasemapToggle, BasemapGallery) {
+    // @@End(codeContext, addFunction) @@Start(map)
+          esriConfig.apiKey = "AAPK2b935e8bbf564ef581ca3c6fcaa5f2a71ZH84cPqqFvyz3KplFRHP8HyAwJJkh6cnpcQ-qkWh5aiyDQsGJbsXglGx0QM2cPm";
+    
+          const map = new Map({
+            basemap: "arcgis-topographic"
+          });
+    // @@Start(toggleContext)
+          const view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [-118.80543,34.02700],
+            zoom: 13
+          });
+    // @@End(map) @@Start(toggle)     
+          const basemapToggle = new BasemapToggle({
+            view: view,
+            nextBasemap: "arcgis-imagery"
+         });
+    // @@End(toggle) @@Start(addToggle, basemapContext)   
+          view.ui.add(basemapToggle,"bottom-right");
+    // @@End(addToggle,toggleContext) @@Start(basemap)
+          const basemapGallery = new BasemapGallery({
+            view: view,
+            source: {
+              query: {
+                title: '"World Basemaps for Developers" AND owner:esri'
+              }
+            } 
+          });
+    // @@End(basemap) @@Start(addBasemap)
+          view.ui.add(basemapGallery, "top-right"); // Add to the view
+    // @@End(addBasemap, basemapContext)    
+        });
+      </script>
+    </head>
+    <body>
+      <div id="viewDiv"></div>
+    </body>
+    </html>
