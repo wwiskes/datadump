@@ -91,7 +91,23 @@
          *****************************************************************/
         view.when(() => {
           housingLayer.when(() => {
-            view.goTo(housingLayer.fullExtent)
+            view.goTo(
+                {
+                  position: {
+                    y: 40.737884, 
+                    x: -111.882502,
+                    z: 9000,
+                    spatialReference: {
+                      wkid: 4326
+                    }
+                  },
+                  heading: 0,
+                  tilt: 0
+                },
+                {
+                  speedFactor: 1
+                }
+              )
             .catch((error) => {
               console.error(error);
             });
