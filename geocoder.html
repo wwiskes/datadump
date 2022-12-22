@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Control Geocoder</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.css" />
+
+	<script src="https://unpkg.com/leaflet@latest/dist/leaflet-src.js"></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.js"></script>
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+		#map {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		#geocode-selector {
+            display: none;
+		}
+
+	
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<div id="geocode-selector"></div>
+
+	<script>
+
+    var map = L.map('map').setView([0, 0], 2),
+        geocoders = {
+            'Nominatim': L.Control.Geocoder.nominatim()
+        },
+        selector = L.DomUtil.get('geocode-selector'),
+        control = new L.Control.Geocoder({ geocoder: null, position: 'bottomleft'}),
+        btn,
+        selection,
+        marker;
+
+    function select(geocoder, el) {
+        if (selection) {
+            L.DomUtil.removeClass(selection, 'selected');
+        }
+
+        control.options.geocoder = geocoder;
+        L.DomUtil.addClass(el, 'selected');
+        selection = el;
+    }
+
+    for (var name in geocoders) {
+        btn = L.DomUtil.create('button', '', selector);
+        btn.innerHTML = name;
+        (function(n) {
+            L.DomEvent.addListener(btn, 'click', function() {
+                select(geocoders[n], this);
+            }, btn);
+        })(name);
+
+        if (!selection) {
+            select(geocoders[name], btn);
+        }
+    }
+
+   		var tiles = L.tileLayer('https://tile.jawg.io/3aa330d4-f050-4a10-9d2c-da03d28d3626/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+		attribution: 'Custom basemap made with <a href="http://jawg.io" title=" Jawg" target="_blank"><b>Jawg</b>Maps</a>',
+		minZoom: 0,
+		maxZoom: 22,
+		subdomains: 'abcd',
+		accessToken: 'calWkA2BNvhTQi2Q6PACh8hXqzYH333N28gROZOFW2WN5OcQQfn3IIHajbxcsX6G'
+		}).addTo(map);
+
+    control.addTo(map);
+
+    map.on('click', function(e) {
+        control.options.geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
+            var r = results[0];
+            if (r) {
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                marker = L.marker(r.center).bindPopup(r.html || r.name).addTo(map).openPopup();
+            }
+        })
+    });
+
+</script>
+</body>
+</html>
