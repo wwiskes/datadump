@@ -44,8 +44,9 @@
       var searchControl = L.esri.Geocoding.geosearch({
         providers: [
           L.esri.Geocoding.arcgisOnlineProvider({
-            // AAPK9221e776567848d595d506041ea79856l2CknOuP-4thmApEGIJ8Vo_euP90HAsdx76liFRQ4VKyxGlhu-r-Q9YImSF6jDwk
-            apikey: 'AAPKb697f8e334b44eac87e0f0990efefdd3i1gDqBRNTUj9WPsbh3p622Md-u5mdqowKc6q5loPZSUWPJhPTdXvKcwMl0dz6f6U'
+            // AAPKfcf75b5e8a51409fb878c0da5b824083emag0C7lR0lzLx5hh23BkBUG788W9-Rv0WgWY4Y2YZPQEqdECOGJ7FPC8bxPL58U //stolen
+            // AAPK9221e776567848d595d506041ea79856l2CknOuP-4thmApEGIJ8Vo_euP90HAsdx76liFRQ4VKyxGlhu-r-Q9YImSF6jDwk //work
+            apikey: 'AAPKb697f8e334b44eac87e0f0990efefdd3i1gDqBRNTUj9WPsbh3p622Md-u5mdqowKc6q5loPZSUWPJhPTdXvKcwMl0dz6f6U' //workmine
           })
         ]
       }).addTo(map);
@@ -58,12 +59,12 @@
       searchControl.on("results", function (data) {
         results.clearLayers();
         for (var i = data.results.length - 1; i >= 0; i--) {  results.addLayer(L.circleMarker(data.results[i].latlng, {
-    radius: 7,
-    fillColor: "red",
-    color: "red",
-    weight: 4,
-    opacity: 1,
-    fillOpacity: 0.4,
+            radius: 7,
+            fillColor: "purple",
+            color: "purple",
+            weight: 4,
+            opacity: 1,
+            fillOpacity: 0.4,
         }));
         }
       });
