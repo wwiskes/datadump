@@ -1,0 +1,77 @@
+#clean your R environment up
+rm(list = ls())
+
+#load libraries - install over the Tools tab the first time or use install.packages("this_package")
+library(bigrquery) # R Interface to Google BigQuery API  
+library(dplyr) # Grammar for data manipulation  
+library(DBI) # Interface definition to connect to databases 
+library(ggplot2) # Data Viz package
+library(rlang)
+# library(wesanderson) 
+# library(RColorBrewer)
+library(sp)
+library(sf)
+library(rgdal)
+library(tidyverse)
+library(wk)
+
+billing = "ut-dnr-wildlifetracker-prod"
+
+con <- dbConnect(
+  bigrquery::bigquery(),
+  project = "ut-dnr-wildlifetracker-prod",
+  dataset = "wildlife_tracker",
+  billing = billing
+)
+con 
+
+dbListTables(con)    #get a new token by presing '0' new tab on browser opens, click 'allow' to the prompts.
+
+sql <- "SELECT points.OBJECTID, points.CollarID, points.Latitude, points.Longitude, points.DateAndTime, points.DT_MST, animals.AnimalID, animals.Species, 
+ animals.CaptureUnit, animals.CaptureArea, 
+FROM `ut-dnr-wildlifetracker-prod.wildlife_tracker.animals` AS animals INNER JOIN  
+`ut-dnr-wildlifetracker-prod.wildlife_tracker.collars` AS points ON animals.CollarID = points.CollarID
+WHERE (points.DateAndTime BETWEEN animals.BeginDate AND COALESCE (animals.EndDate, CURRENT_DATE()))
+And animals.Species = 'mule deer' 
+AND animals.CaptureUnit = 'San Juan'
+And points.DateAndTime between '2016-09-01 00:00:00' and '2021-08-31 23:59:00'" #you can adjust this SQL statement to whatever you need to pull. WHERE statements, 
+# ORDER BY, etc.
+
+
+df <- dbGetQuery(con, sql)  #you can limit the loaded entries with n = how-many-rows-do-you-want
+
+
+View(df)
+df1<- df[!duplicated(df[c("AnimalID","DateAndTime")]),]
+wgs84 <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+
+#convert to spatial
+df1$Long <- as.numeric(as.character(df1$Longitude))
+df1$Lat<- as.numeric(as.character(df1$Latitude))
+
+coordinates(df1)<-~Long+Lat
+proj4string(df1)=CRS(wgs84)
+
+#Remove null values
+loc.null <- which(df1$Latitude == "NULL")
+if (length(loc.null) > 0) {
+  dft <- df1[-loc.null,]
+}
+rm(loc.null)
+
+loc.null <- which(df1$Longitude == "NULL")
+if (length(loc.null) > 0) {
+  df1 <- df1[-loc.null,]
+}
+
+#check for NA, remove if lat or lon are NA
+loc.na <- which(is.na(df1$Longitude) | is.na(df1$Latitude))
+if (length(loc.na) > 0) {
+  df1 <- df1[-loc.na,]
+}
+
+out.dir <- "T:\\Shared drives\\DNR_DWR_GIS_Corridor_Mapping\\MigrationMapping\\MuleDeer\\Analysis\\EagleMtn\\2020_2021"    #adjust to your output file location
+shp.name <- "EagleMtn_20160901_20210831"    #output name for your shapefile - do NOT add the .shp ending
+
+
+writeOGR(df1, out.dir, shp.name, driver="ESRI Shapefile",overwrite=T)       #write out shapefile
