@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0017)http://hilite.me/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Source code beautifier / syntax highlighter – convert code snippets to HTML « hilite.me</title>
+    
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <style type="text/css">
+      body, html {
+        margin:0;
+        padding:0;
+        color:#333;
+        background:#fff;
+        font-family:Verdana,Helvetica,Arial,sans-serif;
+      }
+      input {
+          margin:.5em 0;
+      }
+      #container {
+          width:750px;
+          margin:1em auto;
+      }
+      #container > div {
+          margin:auto 1em;
+      }
+      #code {
+          float:left;
+          width:50%;
+      }
+      #html {
+          float:right;
+          width:50%;
+      }
+      #code2 {
+          margin-right:1em;
+      }
+      #html2 {
+          margin-left:1em;
+      }
+      #main textarea {
+          width:100%;
+          height:10em;
+      }
+      #html2 textarea {
+          float:right;
+      }
+      #options {
+          clear:both;
+      }
+      #divstyles {
+          width:50%;
+      }
+      #preview {
+          padding-bottom: 3em;
+      }
+      #footer {
+          border-top:1px dotted #000;
+      }
+      #footer p {
+          text-align:center;
+          font-size:75%;
+      }
+    </style>
+<script type="text/javascript" async="" src="./CEDcollabChild_files/ga.js.download"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10644958-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+   
+        <div id="preview">
+          <p>
+            <strong>CED collaborators child table:</strong>
+          </p>
+          
+          <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tbody><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #AA22FF; font-weight: bold">DISTINCT</span> Project_Name,
+                CED_Codes
+<span style="color: #AA22FF; font-weight: bold">FROM</span>
+  (<span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #AA22FF; font-weight: bold">DISTINCT</span> <span style="color: #AA22FF; font-weight: bold">LEFT</span>(CONCAT(P.Title, <span style="color: #BB4444">'_'</span>, A.ActionDescription), <span style="color: #666666">99</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name,
+                   CED_Code
+   <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.AREAACTION <span style="color: #AA22FF; font-weight: bold">AS</span> A
+   <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.POLY <span style="color: #AA22FF; font-weight: bold">AS</span> PO <span style="color: #AA22FF; font-weight: bold">ON</span> PO.FeatureID <span style="color: #666666">=</span> A.FeatureID
+   <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.PROJECT <span style="color: #AA22FF; font-weight: bold">AS</span> P <span style="color: #AA22FF; font-weight: bold">ON</span> PO.Project_ID <span style="color: #666666">=</span> P.Project_ID
+   <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+     (<span style="color: #AA22FF; font-weight: bold">SELECT</span> Project_FK,
+             CED_Code
+      <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.CONTRIBUTOR
+      <span style="color: #AA22FF; font-weight: bold">RIGHT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+        (<span style="color: #AA22FF; font-weight: bold">SELECT</span> CED_Code,
+                User_ID
+         <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.USERS <span style="color: #AA22FF; font-weight: bold">AS</span> X
+         <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.Agency_Domain <span style="color: #AA22FF; font-weight: bold">AS</span> Y <span style="color: #AA22FF; font-weight: bold">ON</span> X.Agency <span style="color: #666666">=</span> Y.WRI_AgencyID) <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #AA22FF; font-weight: bold">DOMAIN</span> <span style="color: #AA22FF; font-weight: bold">ON</span> User_ID <span style="color: #666666">=</span> User_FK) <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #AA22FF; font-weight: bold">C</span> <span style="color: #AA22FF; font-weight: bold">ON</span> P.Project_ID <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">C</span>.Project_FK
+   <span style="color: #AA22FF; font-weight: bold">WHERE</span> P.FiscalYearCompleted <span style="color: #666666">=</span> <span style="color: #666666">2019</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> p1 <span style="color: #AA22FF; font-weight: bold">CROSS</span> APPLY
+  (<span style="color: #AA22FF; font-weight: bold">SELECT</span> STR(CED_Code, <span style="color: #666666">3</span>) <span style="color: #666666">+</span> <span style="color: #BB4444">','</span>
+   <span style="color: #AA22FF; font-weight: bold">FROM</span>
+     (<span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #AA22FF; font-weight: bold">DISTINCT</span> <span style="color: #AA22FF; font-weight: bold">LEFT</span>(CONCAT(P.Title, <span style="color: #BB4444">'_'</span>, A.ActionDescription), <span style="color: #666666">99</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> Project_Name, CED_Code
+      <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.AREAACTION <span style="color: #AA22FF; font-weight: bold">AS</span> A
+      <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.POLY <span style="color: #AA22FF; font-weight: bold">AS</span> PO <span style="color: #AA22FF; font-weight: bold">ON</span> PO.FeatureID <span style="color: #666666">=</span> A.FeatureID
+      <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.PROJECT <span style="color: #AA22FF; font-weight: bold">AS</span> P <span style="color: #AA22FF; font-weight: bold">ON</span> PO.Project_ID <span style="color: #666666">=</span> P.Project_ID
+      <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+        (<span style="color: #AA22FF; font-weight: bold">SELECT</span> Project_FK, CED_Code
+         <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.CONTRIBUTOR
+         <span style="color: #AA22FF; font-weight: bold">RIGHT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+           (<span style="color: #AA22FF; font-weight: bold">SELECT</span> CED_Code, User_ID
+            <span style="color: #AA22FF; font-weight: bold">FROM</span> WRI.dbo.USERS <span style="color: #AA22FF; font-weight: bold">AS</span> X
+            <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> WRI.dbo.Agency_Domain <span style="color: #AA22FF; font-weight: bold">AS</span> Y <span style="color: #AA22FF; font-weight: bold">ON</span> X.Agency <span style="color: #666666">=</span> Y.WRI_AgencyID) <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #AA22FF; font-weight: bold">DOMAIN</span> <span style="color: #AA22FF; font-weight: bold">ON</span> User_ID <span style="color: #666666">=</span> User_FK) <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #AA22FF; font-weight: bold">C</span> <span style="color: #AA22FF; font-weight: bold">ON</span> P.Project_ID <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">C</span>.Project_FK
+      <span style="color: #AA22FF; font-weight: bold">WHERE</span> P.FiscalYearCompleted <span style="color: #666666">=</span> <span style="color: #666666">2019</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> p2
+   <span style="color: #AA22FF; font-weight: bold">WHERE</span> p2.Project_Name <span style="color: #666666">=</span> p1.Project_Name
+   <span style="color: #AA22FF; font-weight: bold">ORDER</span> <span style="color: #AA22FF; font-weight: bold">BY</span> CED_Code
+   <span style="color: #AA22FF; font-weight: bold">FOR</span> XML PATH(<span style="color: #BB4444">''</span>)) D (CED_Codes)
+</pre></td></tr></tbody></table></div>
+
+          
+        </div>
+        <div id="footer">
+          <p>
+            Made by William Wiskes for January 2022 CED upload
+          </p>
+        </div>
+      </div>
+    
+  
+</body></html>
