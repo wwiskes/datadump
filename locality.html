@@ -63,9 +63,7 @@
 
 const map = L.map('map', {
       center: [0, 0],
-      zoom: 1,
-      zoomDelta: .25,
-      zoomSnap: .25
+      zoom: 1
     });
 
 var api = {
@@ -126,7 +124,7 @@ info.onAdd = function (map) {
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Bay Area Locality</h4>' + (props ?
 		'County: <b><big>' + props.NAME + '</big></b>'
-		: 'Hover over a county to see info');
+		: 'Hover over a county to see info <br> Double click it to zoom');
 };
 info.addTo(map);
 function style(feature) {
