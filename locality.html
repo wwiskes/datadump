@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bay Area Locality</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--This page was hand coded by Will Wiskes-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+		crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<style>
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+		}
+		#map {
+			height: 100%;
+			width: 100vw;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255, 255, 255, 0.8);
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+		#loader {
+		z-index: 999999;
+		width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+		display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id='map'>  <div id='loader'>
+		<img src='images/loader.gif'  width="100px">
+	  </div></div>
+	<!-- Image loader -->
+
+  <!-- Image loader -->
+  
+	<script type="text/javascript">
+
+const map = L.map('map', {
+      center: [0, 0],
+      zoom: 1,
+      zoomDelta: .25,
+      zoomSnap: .25
+    });
+
+var api;
+$.ajax({url:'https://geojson-cloud.up.railway.app/counties?fips=06',
+                                type: 'GET',
+                                dataType: 'json',
+								beforeSend: function(){
+									// Show image container
+									$("#loader").show();
+								},
+                                success: function (data) {
+                                    // console.log(data);
+                                    api = data;
+                                    refreshMaps()
+                                },
+								complete:function(data){
+									// Hide image container
+									$("#loader").hide();
+								}
+                });
+
+
+            if (geojson) {
+                geojson.remove();
+            }       
+
+            geojson = L.geoJson(api, {
+                style: style,
+                onEachFeature: onEachFeature,
+                filter: mainFilter
+            }).addTo(map);
+
+            map.fitBounds(geojson.getBounds());
+   
+
+        function mainFilter(feature) {
+  if (feature.properties.id === 187 ||
+  feature.properties.id === 193 ||
+  feature.properties.id === 207 ||
+  feature.properties.id === 213 ||
+  feature.properties.id === 214 ||
+  feature.properties.id === 221 ||
+  feature.properties.id === 224 ||
+  feature.properties.id === 225 ||
+  feature.properties.id === 227 ||
+  feature.properties.id === 229 ||
+  feature.properties.id === 230 ||
+  feature.properties.id === 234 ||
+  feature.properties.id === 235
+  ) return true
+};
+
+map.attributionControl.setPrefix('by <a href="https://www.linkedin.com/in/william-wiskes" target="_blank">Will Wiskes</a>');
+
+// var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+// 				maxZoom: 18,
+// 				attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>, ' +
+// 					'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+// 				id: 'mapbox/streets-v11',
+// 				tileSize: 512,
+// 				zoomOffset: -1
+// 			}).addTo(map);
+	var tiles = L.tileLayer('https://tile.jawg.io/3aa330d4-f050-4a10-9d2c-da03d28d3626/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+		attribution: 'Custom basemap made with <a href="http://jawg.io" title=" Jawg" target="_blank"><b>Jawg</b>Maps</a>',
+		minZoom: 0,
+		maxZoom: 22,
+		subdomains: 'abcd',
+		accessToken: 'calWkA2BNvhTQi2Q6PACh8hXqzYH333N28gROZOFW2WN5OcQQfn3IIHajbxcsX6G'
+		}).addTo(map);
+var info = L.control();
+info.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'info');
+	this.update();
+	return this._div;
+};
+info.update = function (props) {
+	this._div.innerHTML = '<h4>Bay Area Locality</h4>' + (props ?
+		'County: <b><big>' + props.NAME + '</big></b>'
+		: 'Hover over a county to see info');
+};
+info.addTo(map);
+function style(feature) {
+	return {
+		weight: 3,
+		opacity: 1,
+		color: '#f56a6a',
+		fillOpacity: 0
+
+	};
+}
+var geojson;
+function highlightFeature(e) {
+	var layer = e.target
+	//start
+	geojson.setStyle({
+		weight: 3,
+		color: '#f56a6a',
+		dashArray: '',
+		fillOpacity: 0
+	});
+	//end
+	layer.setStyle({
+		weight: 5,
+		color: 'red',
+		dashArray: '',
+		fillOpacity: 0
+	});
+	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		layer.bringToFront();
+	}
+	info.update(layer.feature.properties);
+
+}
+function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+map.doubleClickZoom.disable(); 
+function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: highlightFeature,
+                dblclick: zoomToFeature
+            });
+        }
+
+
+	</script>
+</body>
+</html>
