@@ -108,13 +108,17 @@ map.attributionControl.setPrefix('by <a href="https://www.linkedin.com/in/willia
 // 				tileSize: 512,
 // 				zoomOffset: -1
 // 			}).addTo(map);
-	var tiles = L.tileLayer('https://tile.jawg.io/3aa330d4-f050-4a10-9d2c-da03d28d3626/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-		attribution: 'Custom basemap made with <a href="http://jawg.io" title=" Jawg" target="_blank"><b>Jawg</b>Maps</a>',
-		minZoom: 0,
-		maxZoom: 22,
-		subdomains: 'abcd',
-		accessToken: 'calWkA2BNvhTQi2Q6PACh8hXqzYH333N28gROZOFW2WN5OcQQfn3IIHajbxcsX6G'
-		}).addTo(map);
+	// var tiles = L.tileLayer('https://tile.jawg.io/3aa330d4-f050-4a10-9d2c-da03d28d3626/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+	// 	attribution: 'Custom basemap made with <a href="http://jawg.io" title=" Jawg" target="_blank"><b>Jawg</b>Maps</a>',
+	// 	minZoom: 0,
+	// 	maxZoom: 22,
+	// 	subdomains: 'abcd',
+	// 	accessToken: 'calWkA2BNvhTQi2Q6PACh8hXqzYH333N28gROZOFW2WN5OcQQfn3IIHajbxcsX6G'
+	// 	}).addTo(map);
+
+		var tiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+}).addTo(map);
 var info = L.control();
 info.onAdd = function (map) {
 	this._div = L.DomUtil.create('div', 'info');
