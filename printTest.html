@@ -21,16 +21,17 @@
     #map {
       width: 80%;
       margin: auto;
-      height: 70%;
+      height: 60%;
     }
   </style>
 </head>
 
 <body>
-<h1 class="title" leaflet-browser-print-content>MCBBA Test Map</h1>
-<h3 class="sub-content" leaflet-browser-print-content>Block number would be here.</h3>
+<h3 class="title" leaflet-browser-print-content>Block number would be here.</h3>
+<h3 class="sub-content" leaflet-browser-print-content><br><br><br></h3>
 <div id="map"></div>
 <p>this is a test, this sentance shouldn't print.</p>
+<button onclick="myFunction()">print</button>
 <script src="https://unpkg.com/leaflet@latest/dist/leaflet.js"></script>
 <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
 <script src="https://igor-vladyka.github.io/leaflet.browser.print/dist/leaflet.browser.print.js"></script>
@@ -39,7 +40,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
 <script>
-    var canvasRenderer = L.canvas();
+
     //Layers
     var cities = L.markerClusterGroup();
     var arrayOfPoints = [[39.61, -105.02], [39.73, -104.8], [39.77, -105.23]];
@@ -70,18 +71,16 @@
     };
 
     L.control.layers(baseLayers, overlays).addTo(map);
-
-
-    L.control.browserPrint({
-        printLayer:    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }),
-        closePopupsOnPrint: false,
-        printModes: [
-            L.BrowserPrint.Mode.Landscape()
-        ]
-    }).addTo(map);
-
+    var browserPrint = L.browserPrint(map, {margin: {top: 10}});
+    function myFunction() {
+      browserPrint.print(L.BrowserPrint.Mode.Landscape());
+}
+    // L.control.browserPrint({
+    //     closePopupsOnPrint: false,
+    //     printModes: [
+    //       L.BrowserPrint.Mode.Landscape("LETTER",{margin: {top: 10}})
+    //     ]
+    // }).addTo(map);
 
 
 
@@ -94,15 +93,23 @@
   .grid-print-container {
     grid-template: auto 1fr auto / 1fr;
     background-color: white;
+        /* max-height: 100%;
+    overflow: hidden;
+    page-break-after: always; */
+  
   }
 
   .grid-map-print {
     grid-row: 2;
+
   }
 
   .grid-print-container > .title,
   .grid-print-container > .sub-content {
     color: black;
+padding-top: -200px;
+    z-index: 9999;
+        background-color: white;
   }
 
   .title {
@@ -122,7 +129,7 @@
     box-sizing: border-box;
   }
 </style>
-<style>
+<!-- <style>
   [leaflet-browser-print-pages] {
     display: none;
   }
@@ -130,7 +137,8 @@
   .pages-print-container [leaflet-browser-print-pages] {
     display: block;
   }
-</style>
+ 
+</style> -->
 </body>
 
 </html>
