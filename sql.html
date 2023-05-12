@@ -1,59 +1,41 @@
-<!DOCTYPE html >
-<html>
-<head>
-</head>
-<body>
-<style type="text/css">
-.SQLCode {
-	font-size: 13px;
-	font-weight: bold;
-	font-family: monospace;;
-	white-space: pre;
-    -o-tab-size: 4;
-    -moz-tab-size: 4;
-    -webkit-tab-size: 4;
-}
-.SQLComment {
-	color: #00AA00;
-}
-.SQLString {
-	color: #AA0000;
-}
-.SQLFunction {
-	color: #AA00AA;
-}
-.SQLKeyword {
-	color: #0000AA;
-}
-.SQLOperator {
-	color: #777777;
-}
-.SQLErrorHighlight {
-	background-color: #FFFF00;
-}
-
-
-</style>
-<pre class="SQLCode"><span class="SQLKeyword">WITH</span> merged_data
-<span class="SQLKeyword">AS</span> <span class="SQLOperator">(</span>
-	<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
-		<span class="SQLOperator">,</span><span class="SQLString">'C'</span> <span class="SQLKeyword">AS</span> projectcode
-	<span class="SQLKeyword">FROM</span> current
-	
-	<span class="SQLKeyword">UNION</span>
-	
-	<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
-		<span class="SQLOperator">,</span><span class="SQLString">'S'</span> <span class="SQLKeyword">AS</span> projectcode
-	<span class="SQLKeyword">FROM</span> historic
-	<span class="SQLOperator">)</span>
-<span class="SQLKeyword">SELECT</span> v<span class="SQLOperator">.</span>block
-	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>breeding_code
-	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>species
-	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>projectcode
-	<span class="SQLOperator">,</span><span class="SQLKeyword">ST_AsGeoJSON</span><span class="SQLOperator">(</span>v<span class="SQLOperator">.</span>geometry<span class="SQLOperator">,</span> 5<span class="SQLOperator">)</span> <span class="SQLKeyword">AS</span> geojson
-<span class="SQLKeyword">FROM</span> merged_data m
-<span class="SQLKeyword">LEFT JOIN</span> vcs v <span class="SQLKeyword">ON</span> v<span class="SQLOperator">.</span>block <span class="SQLOperator">=</span> m<span class="SQLOperator">.</span>block 
-<span class="SQLString">{$where}</span>
-</pre>
-</body>
-</html>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">WITH</span> merged_data
+ <span style="color: #AA22FF; font-weight: bold">AS</span> (
+   <span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #666666">*</span>
+     ,<span style="color: #BB4444">&#39;C&#39;</span> <span style="color: #AA22FF; font-weight: bold">AS</span> projectcode
+   <span style="color: #AA22FF; font-weight: bold">FROM</span> current
+   
+   <span style="color: #AA22FF; font-weight: bold">UNION</span>
+   
+   <span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #666666">*</span>
+     ,<span style="color: #BB4444">&#39;H&#39;</span> <span style="color: #AA22FF; font-weight: bold">AS</span> projectcode
+   <span style="color: #AA22FF; font-weight: bold">FROM</span> historic
+   )
+ <span style="color: #AA22FF; font-weight: bold">SELECT</span> v.block
+   ,m.breeding_code
+   ,m.species
+   ,m.projectcode
+   ,ST_AsGeoJSON(v.geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson
+ <span style="color: #AA22FF; font-weight: bold">FROM</span> merged_data m
+ <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> vcs v <span style="color: #AA22FF; font-weight: bold">ON</span> v.block <span style="color: #666666">=</span> m.block 
+ <span style="border: 1px solid #FF0000">{$where}</span>
+ </pre></td></tr></table></div>
+ 
