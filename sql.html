@@ -34,7 +34,7 @@
    ,m.breeding_code
    ,m.species
    ,m.projectcode
-   ,ST_AsGeoJSON(v.geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson
+   ,<span style="color: #AA22FF; font-weight: bold">ST_AsGeoJSON</span>(v.geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson
  <span style="color: #AA22FF; font-weight: bold">FROM</span> merged_data m
  <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> vcs v <span style="color: #AA22FF; font-weight: bold">ON</span> v.block <span style="color: #666666">=</span> m.block 
  <span style="border: 1px solid #FF0000">{$where}</span>
