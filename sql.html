@@ -1,99 +1,59 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html >
 <html>
-   <head>
-      <title>Code</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<head>
+</head>
+<body>
+<style type="text/css">
+.SQLCode {
+	font-size: 13px;
+	font-weight: bold;
+	font-family: monospace;;
+	white-space: pre;
+    -o-tab-size: 4;
+    -moz-tab-size: 4;
+    -webkit-tab-size: 4;
+}
+.SQLComment {
+	color: #00AA00;
+}
+.SQLString {
+	color: #AA0000;
+}
+.SQLFunction {
+	color: #AA00AA;
+}
+.SQLKeyword {
+	color: #0000AA;
+}
+.SQLOperator {
+	color: #777777;
+}
+.SQLErrorHighlight {
+	background-color: #FFFF00;
+}
 
-  </head>
-  <style>
-      .william {
-        color:#D0D0D0; 
-        margin: 0; 
-        line-height: 125%;
-      }
-/*      @media only screen and (orientation: portrait) */
-     @media (pointer:none), (pointer:coarse){
-      .william {
-        color:#f8f8f8; 
-        margin: 0; 
-        line-height: 125%;
-        }
-        }
-  </style> 
-   <body>
-<div class="wiskes">
-     
-          <div style="background: #f8f8f8; overflow:auto;width:auto;border-radius: 5px;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-             <table><tr><td><pre class="william"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">SELECT</span>   spec <span style="color: #AA22FF; font-weight: bold">AS</span> species, 
-         <span style="color: #0000FF">Sum</span>( 
-         <span style="color: #AA22FF; font-weight: bold">CASE</span> 
-                  <span style="color: #AA22FF; font-weight: bold">WHEN</span> projectcode <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;S&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #666666">1</span> 
-         <span style="color: #AA22FF; font-weight: bold">END</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> shuford, 
-         <span style="color: #0000FF">Sum</span>( 
-         <span style="color: #AA22FF; font-weight: bold">CASE</span> 
-                  <span style="color: #AA22FF; font-weight: bold">WHEN</span> projectcode <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;E&#39;</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #666666">1</span> 
-         <span style="color: #AA22FF; font-weight: bold">END</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> ebird 
-<span style="color: #AA22FF; font-weight: bold">FROM</span>     ( 
-                   <span style="color: #AA22FF; font-weight: bold">SELECT</span>    <span style="color: #666666">*</span> 
-                   <span style="color: #AA22FF; font-weight: bold">FROM</span>      ( 
-                                       <span style="color: #AA22FF; font-weight: bold">SELECT</span>    blocks.name, 
-                                                 commonname <span style="color: #AA22FF; font-weight: bold">AS</span> common_name, 
-                                                 projectcode::<span style="color: #AA22FF">varchar</span>(<span style="color: #666666">1</span>), 
-                                                 <span style="color: #0000FF">ST_AsGeoJSON</span>(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
-                                       <span style="color: #AA22FF; font-weight: bold">FROM</span>      historic 
-                                       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> list19p 
-                                       <span style="color: #AA22FF; font-weight: bold">ON</span>        species <span style="color: #666666">=</span> spec 
-                                       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> blocks 
-                                       <span style="color: #AA22FF; font-weight: bold">ON</span>        block <span style="color: #666666">=</span> name 
-                                       <span style="color: #AA22FF; font-weight: bold">WHERE</span>     breeding_code::<span style="color: #AA22FF">integer</span> <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span> 
-                                       <span style="color: #AA22FF; font-weight: bold">UNION</span> 
-                                       <span style="color: #AA22FF; font-weight: bold">SELECT</span>    blocks.name, 
-                                                 common_name, 
-                                                 projectcode::<span style="color: #AA22FF">varchar</span>(<span style="color: #666666">1</span>), 
-                                                 <span style="color: #0000FF">ST_AsGeoJSON</span>(wkb_geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson 
-                                       <span style="color: #AA22FF; font-weight: bold">FROM</span>      ebirdjuly 
-                                       <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> blocks 
-                                       <span style="color: #AA22FF; font-weight: bold">ON</span>        blocks.name <span style="color: #666666">=</span> ebirdjuly.name) <span style="color: #AA22FF; font-weight: bold">AS</span> nest 
-                   <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> list19p 
-                   <span style="color: #AA22FF; font-weight: bold">ON</span>        common_name <span style="color: #666666">=</span> commonname) <span style="color: #AA22FF; font-weight: bold">AS</span> mcbba <span style="border: 1px solid #FF0000">{$</span><span style="color: #AA22FF; font-weight: bold">where</span><span style="border: 1px solid #FF0000">}</span> 
-<span style="color: #AA22FF; font-weight: bold">GROUP</span> <span style="color: #AA22FF; font-weight: bold">BY</span> spec
-</pre></td></tr></table></div>
 
-          
-        </div>
-
-  </body>
+</style>
+<pre class="SQLCode"><span class="SQLKeyword">WITH</span> merged_data
+<span class="SQLKeyword">AS</span> <span class="SQLOperator">(</span>
+	<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
+		<span class="SQLOperator">,</span><span class="SQLString">'C'</span> <span class="SQLKeyword">AS</span> projectcode
+	<span class="SQLKeyword">FROM</span> current
+	
+	<span class="SQLKeyword">UNION</span>
+	
+	<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
+		<span class="SQLOperator">,</span><span class="SQLString">'S'</span> <span class="SQLKeyword">AS</span> projectcode
+	<span class="SQLKeyword">FROM</span> historic
+	<span class="SQLOperator">)</span>
+<span class="SQLKeyword">SELECT</span> v<span class="SQLOperator">.</span>block
+	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>breeding_code
+	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>species
+	<span class="SQLOperator">,</span>m<span class="SQLOperator">.</span>projectcode
+	<span class="SQLOperator">,</span><span class="SQLKeyword">ST_AsGeoJSON</span><span class="SQLOperator">(</span>v<span class="SQLOperator">.</span>geometry<span class="SQLOperator">,</span> 5<span class="SQLOperator">)</span> <span class="SQLKeyword">AS</span> geojson
+<span class="SQLKeyword">FROM</span> merged_data m
+<span class="SQLKeyword">LEFT JOIN</span> vcs v <span class="SQLKeyword">ON</span> v<span class="SQLOperator">.</span>block <span class="SQLOperator">=</span> m<span class="SQLOperator">.</span>block 
+<span class="SQLString">{$where}</span>
+</pre>
+</body>
 </html>
