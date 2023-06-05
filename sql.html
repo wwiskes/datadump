@@ -37,7 +37,7 @@
  WITH</span> cte
       <span style="color: #AA22FF; font-weight: bold">AS</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> hist,
                  curr,
-                 <span style="color: blue; font-weight: bold">Coalesce</span>(<span style="color: #AA22FF; font-weight: bold">c</span>.species, h.species) <span style="color: #AA22FF; font-weight: bold">AS</span> code
+                 <span style="color: blue; font-weight: bold">Coalesce</span>(c.species, h.species) <span style="color: #AA22FF; font-weight: bold">AS</span> code
           <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> block,
                          species,
                          breeding_code <span style="color: #AA22FF; font-weight: bold">AS</span> hist
