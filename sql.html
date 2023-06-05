@@ -51,7 +51,7 @@
                   <span style="color: #AA22FF; font-weight: bold">WHERE</span>  <span style="border: 1px solid #FF0000">{$<span style="color: black; font-weight: bold">where</span>}</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> c
                <span style="color: #AA22FF; font-weight: bold">ON</span> h.species <span style="color: #666666">=</span> c.species)
  
- <span style="color: #AA22FF; font-weight: bold">SELECT</span> commonname <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #B8860B">&quot;Common Name&quot;</span>,
+ <span style="color: #AA22FF; font-weight: bold">SELECT</span> commonname <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #B8860B">&quot;Common Name&quot;</span>,
         code <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #B8860B">&quot;Code&quot;</span>,
         <span style="color: #AA22FF; font-weight: bold">CASE</span>
           <span style="color: #AA22FF; font-weight: bold">WHEN</span> hist <span style="color: #666666">=</span> <span style="color: #666666">4</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Confirmed&#39;</span>
