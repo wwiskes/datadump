@@ -1,4 +1,5 @@
-<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">
+  1
   2
   3
   4
@@ -17,26 +18,56 @@
  17
  18
  19
- 20</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">
- WITH</span> merged_data
- <span style="color: #AA22FF; font-weight: bold">AS</span> (
-   <span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #666666">*</span>
-     ,<span style="color: #BB4444">&#39;C&#39;</span> <span style="color: #AA22FF; font-weight: bold">AS</span> projectcode
-   <span style="color: #AA22FF; font-weight: bold">FROM</span> current
-   
-   <span style="color: #AA22FF; font-weight: bold">UNION</span>
-   
-   <span style="color: #AA22FF; font-weight: bold">SELECT</span> <span style="color: #666666">*</span>
-     ,<span style="color: #BB4444">&#39;H&#39;</span> <span style="color: #AA22FF; font-weight: bold">AS</span> projectcode
-   <span style="color: #AA22FF; font-weight: bold">FROM</span> historic
-   )
- <span style="color: #AA22FF; font-weight: bold">SELECT</span> v.block
-   ,m.breeding_code
-   ,m.species
-   ,m.projectcode
-   ,<span style="color: #AA22FF; font-weight: bold">ST_AsGeoJSON</span>(v.geometry, <span style="color: #666666">5</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> geojson
- <span style="color: #AA22FF; font-weight: bold">FROM</span> merged_data m
- <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> vcs v <span style="color: #AA22FF; font-weight: bold">ON</span> v.block <span style="color: #666666">=</span> m.block 
- <span style="border: 1px solid #FF0000">{$where}</span>
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #AA22FF; font-weight: bold">
+ WITH</span> cte
+      <span style="color: #AA22FF; font-weight: bold">AS</span> (<span style="color: #AA22FF; font-weight: bold">SELECT</span> hist,
+                 curr,
+                 <span style="color: blue; font-weight: bold">Coalesce</span>(<span style="color: #AA22FF; font-weight: bold">c</span>.species, h.species) <span style="color: #AA22FF; font-weight: bold">AS</span> code
+          <span style="color: #AA22FF; font-weight: bold">FROM</span>   (<span style="color: #AA22FF; font-weight: bold">SELECT</span> block,
+                         species,
+                         breeding_code <span style="color: #AA22FF; font-weight: bold">AS</span> hist
+                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   historic
+                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  <span style="border: 1px solid #FF0000">{$<span style="color: black; font-weight: bold">where</span>}</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> h
+                 <span style="color: #AA22FF; font-weight: bold">FULL</span> <span style="color: #AA22FF; font-weight: bold">OUTER</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span>
+                 (<span style="color: #AA22FF; font-weight: bold">SELECT</span> block,
+                         species,
+                         breeding_code <span style="color: #AA22FF; font-weight: bold">AS</span> curr
+                  <span style="color: #AA22FF; font-weight: bold">FROM</span>   current
+                  <span style="color: #AA22FF; font-weight: bold">WHERE</span>  <span style="border: 1px solid #FF0000">{$<span style="color: black; font-weight: bold">where</span>}</span>) <span style="color: #AA22FF; font-weight: bold">AS</span> c
+               <span style="color: #AA22FF; font-weight: bold">ON</span> h.species <span style="color: #666666">=</span> c.species)
+ 
+ <span style="color: #AA22FF; font-weight: bold">SELECT</span> commonname <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #B8860B">&quot;Common Name&quot;</span>,
+        code <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #B8860B">&quot;Code&quot;</span>,
+        <span style="color: #AA22FF; font-weight: bold">CASE</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> hist <span style="color: #666666">=</span> <span style="color: #666666">4</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Confirmed&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> hist <span style="color: #666666">=</span> <span style="color: #666666">3</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Probable&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> hist <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Possible&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;---&#39;</span>
+        <span style="color: #AA22FF; font-weight: bold">END</span> <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #B8860B">&quot;Shuford&quot;</span>,
+        <span style="color: #AA22FF; font-weight: bold">CASE</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> curr <span style="color: #666666">=</span> <span style="color: #666666">4</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Confirmed&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> curr <span style="color: #666666">=</span> <span style="color: #666666">3</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Probable&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">WHEN</span> curr <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #AA22FF; font-weight: bold">THEN</span> <span style="color: #BB4444">&#39;Possible&#39;</span>
+          <span style="color: #AA22FF; font-weight: bold">ELSE</span> <span style="color: #BB4444">&#39;---&#39;</span>
+        <span style="color: #AA22FF; font-weight: bold">END</span> <span style="color: #AA22FF; font-weight: bold">AS</span> <span style="color: #B8860B">&quot;Current&quot;</span>
+ <span style="color: #AA22FF; font-weight: bold">FROM</span>   cte
+        <span style="color: #AA22FF; font-weight: bold">LEFT</span> <span style="color: #AA22FF; font-weight: bold">JOIN</span> list19p
+               <span style="color: #AA22FF; font-weight: bold">ON</span> code <span style="color: #666666">=</span> spec
+ <span style="color: #AA22FF; font-weight: bold">ORDER</span>  <span style="color: #AA22FF; font-weight: bold">BY</span> id 
  </pre></td></tr></table></div>
  
